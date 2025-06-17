@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Patch,
-  Delete,
-  NotFoundException,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
 import { PharmacyService } from './pharmacy.service';
 import { CreatePharmacyDto } from './dto/create-pharmacy.dto';
 import { UpdatePharmacyDto } from './dto/UpdatePharmacyDto';
@@ -22,24 +13,24 @@ export class PharmacyController {
     return this.pharmacyService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Pharmacy> {
+    const pharmacy = await this.pharmacyService.findOne(+id);
+    if (!pharmacy) {
+      throw new Error(`Farmácia com ID ${id} não encontrada`);
+    }
+    return pharmacy;
+  }
+
   @Post()
   async create(@Body() data: CreatePharmacyDto): Promise<Pharmacy> {
     return this.pharmacyService.create(data);
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Pharmacy> {
-    const pharmacy = await this.pharmacyService.findOne(+id);
-    if (!pharmacy) {
-      throw new NotFoundException(`Farmácia com ID ${id} não foi encontrada`);
-    }
-    return pharmacy;
-  }
-
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() data: UpdatePharmacyDto,
+    @Body() data: UpdatePharmacyDto
   ): Promise<Pharmacy> {
     return this.pharmacyService.update(+id, data);
   }
@@ -49,6 +40,7 @@ export class PharmacyController {
     return this.pharmacyService.remove(+id);
   }
 }
+
 
 
 

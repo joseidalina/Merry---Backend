@@ -1,31 +1,41 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, Min } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateMedicineDto {
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty()
   @IsNumber()
+  @Min(0)
   price: number;
 
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   form: string;
 
+  @ApiProperty()
   @IsBoolean()
-  @IsOptional()
-  inStock?: boolean;
+  inStock: boolean;
 
-  @IsInt()
+  @ApiProperty()
+  @IsNumber()
   pharmacyId: number;
 
-  @IsInt()
+  @ApiProperty()
+  @IsNumber()
   categoryId: number;
 
-  @IsInt()
+  @ApiProperty()
+  @IsNumber()
   typeId: number;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
 }
+

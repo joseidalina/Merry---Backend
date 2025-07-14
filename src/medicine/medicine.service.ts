@@ -14,11 +14,31 @@ export class MedicineService {
     });
   }
 
-  findAll() {
+  async findAll(query: {
+    name?: string;
+    categoryId?: number;
+    typeId?: number;
+    pharmacyId?: number;
+    inStock?: boolean;
+  }) {
+    const { name, categoryId, typeId, pharmacyId, inStock } = query;
+  
     return this.prisma.medicine.findMany({
-      include: { category: true, pharmacy: true, type: true },
+      where: {
+        name: name ? { contains: name, mode: 'insensitive' } : undefined,
+        categoryId,
+        typeId,
+        pharmacyId,
+        inStock,
+      },
+      include: {
+        category: true,
+        pharmacy: true,
+        type: true,
+      },
     });
   }
+  
 
   findOne(id: number) {
     return this.prisma.medicine.findUnique({

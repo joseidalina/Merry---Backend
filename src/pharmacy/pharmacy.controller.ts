@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards } from '@nestjs/common';
 import { PharmacyService } from './pharmacy.service';
 import { CreatePharmacyDto } from './dto/create-pharmacy.dto';
 import { UpdatePharmacyDto } from './dto/UpdatePharmacyDto';
 import { Pharmacy } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('pharmacies')
 export class PharmacyController {
@@ -22,11 +24,15 @@ export class PharmacyController {
     return pharmacy;
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() data: CreatePharmacyDto): Promise<Pharmacy> {
     return this.pharmacyService.create(data);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -35,6 +41,8 @@ export class PharmacyController {
     return this.pharmacyService.update(+id, data);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Pharmacy> {
     return this.pharmacyService.remove(+id);

@@ -6,6 +6,7 @@ import { PharmacyModule } from './pharmacy/pharmacy.module';
 import { CategoryModule } from './category/category.module';
 import { MedicineModule } from './medicine/medicine.module';
 import { MedicineTypeModule} from './medicine-type/medicine-type.module'
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -15,6 +16,7 @@ import { MedicineTypeModule} from './medicine-type/medicine-type.module'
     CategoryModule,
     MedicineModule,
     MedicineTypeModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

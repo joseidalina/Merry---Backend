@@ -4,17 +4,22 @@ import { CreateMedicineDto } from './dto/create-Medicine.dto';
 import { UpdateMedicineDto } from './dto/update-medicine.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @Controller('medicines')
 export class MedicineController {
   constructor(private readonly medicineService: MedicineService) {}
 
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Post()
-  create(@Body() createMedicineDto: CreateMedicineDto) {
-    return this.medicineService.create(createMedicineDto);
-  }
+@ApiBearerAuth()
+@Post()
+create(
+  @Body() createMedicineDto: CreateMedicineDto,
+  @CurrentUser() user: any
+) {
+  return this.medicineService.create(createMedicineDto, user.pharmacyId);
+}
+
 
   @Get()
   findAll(

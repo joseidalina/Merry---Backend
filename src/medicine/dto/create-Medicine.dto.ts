@@ -25,11 +25,7 @@ export class CreateMedicineDto {
   @ApiProperty()
   @IsBoolean()
   inStock: boolean;
-
-  @ApiProperty()
-  @IsNumber()
-  pharmacyId: number;
-
+  
   @ApiProperty()
   @IsNumber()
   categoryId: number;

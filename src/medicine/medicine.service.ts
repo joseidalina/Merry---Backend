@@ -2,17 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateMedicineDto } from './dto/create-Medicine.dto';
 import { UpdateMedicineDto } from './dto/update-medicine.dto';
+import { Medicine } from '@prisma/client';
+
 
 @Injectable()
 export class MedicineService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: CreateMedicineDto) {
+  async create(data: CreateMedicineDto, pharmacyId: number): Promise<Medicine> {
     return this.prisma.medicine.create({
-      data,
-      include: { category: true, pharmacy: true, type: true },
+      data: {
+        ...data,
+        pharmacyId, // adicionamos manualmente aqui
+      },
     });
   }
+  
 
   async findAll(query: {
     name?: string;

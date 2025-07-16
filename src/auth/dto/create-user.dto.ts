@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, IsString, IsInt } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -8,6 +8,10 @@ export class CreateUserDto {
   @MinLength(6)
   password: string;
 
+  @IsInt()
+  pharmacyId: number; 
+
   @IsNotEmpty()
-  pharmacyId: number; // ID da farmácia que o usuário vai administrar
+  @IsString()
+  name: string;
 }

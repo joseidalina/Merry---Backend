@@ -13,7 +13,7 @@ export class MedicineService {
     return this.prisma.medicine.create({
       data: {
         ...data,
-        pharmacyId, // adicionamos manualmente aqui
+        pharmacyId,
       },
     });
   }

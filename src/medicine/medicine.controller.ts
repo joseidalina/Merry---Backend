@@ -21,21 +21,23 @@ create(
 }
 
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get()
   findAll(
+    @CurrentUser() user: any,
     @Query('name') name?: string,
     @Query('categoryId') categoryId?: string,
     @Query('typeId') typeId?: string,
-    @Query('pharmacyId') pharmacyId?: string,
     @Query('inStock') inStock?: string,
   ) {
     return this.medicineService.findAll({
       name,
       categoryId: categoryId ? Number(categoryId) : undefined,
       typeId: typeId ? Number(typeId) : undefined,
-      pharmacyId: pharmacyId ? Number(pharmacyId) : undefined,
+      pharmacyId: user.pharmacyId,
       inStock: inStock !== undefined ? inStock === 'true' : undefined,
-  });
+    });
   }
 
 
